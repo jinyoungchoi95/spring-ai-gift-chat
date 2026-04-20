@@ -24,6 +24,7 @@ class GiftRecommenderServiceTest : FunSpec({
             )
             every {
                 chatClient.prompt()
+                    .system(any<String>())
                     .user("친구 생일 선물 추천해줘")
                     .call()
                     .content()
