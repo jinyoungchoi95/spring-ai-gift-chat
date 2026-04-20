@@ -6,7 +6,7 @@ import org.springframework.ai.chat.client.advisor.api.CallAdvisor
 import org.springframework.ai.chat.client.advisor.api.CallAdvisorChain
 import mu.KotlinLogging
 
-class LoggerAdvisor : CallAdvisor{
+class LoggerAdvisor : CallAdvisor {
     override fun adviseCall(
         chatClientRequest: ChatClientRequest,
         callAdvisorChain: CallAdvisorChain

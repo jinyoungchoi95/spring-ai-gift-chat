@@ -52,9 +52,11 @@ class LoggerAdvisorTest : FunSpec({
 
             loggerAdvisor.adviseCall(chatClientRequest, callAdvisorChain)
 
-            logCaptureListener.logged(aLog().info().withMessage(
-                equalTo("userMessage=친구 생일 선물 추천해줘 context={sessionId=$sessionId}")
-            ))
+            logCaptureListener.logged(
+                aLog().info().withMessage(
+                    equalTo("userMessage=친구 생일 선물 추천해줘 context={sessionId=$sessionId}")
+                )
+            )
             logCaptureListener.logged(aLog().info().withMessage(containsString("durationMs=")))
         }
     }

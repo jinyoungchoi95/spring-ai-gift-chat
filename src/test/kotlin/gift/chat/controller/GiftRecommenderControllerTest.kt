@@ -23,12 +23,14 @@ class GiftRecommenderControllerTest(
     init {
         context("recommendGift") {
             test("추천된 상품 정보를 응답한다") {
-                every { giftRecommenderService.recommend(
-                    RecommendGiftRequest(
-                        message = "친구 생일 선물 추천해 줘",
-                        sessionId = "550e8400-e29b-41d4-a716-446655440000"
+                every {
+                    giftRecommenderService.recommend(
+                        RecommendGiftRequest(
+                            message = "친구 생일 선물 추천해 줘",
+                            sessionId = "550e8400-e29b-41d4-a716-446655440000"
+                        )
                     )
-                ) } returns RecommendGiftResponse(
+                } returns RecommendGiftResponse(
                     sessionId = "550e8400-e29b-41d4-a716-446655440000",
                     message = "생일 추천 선물은 케이크"
                 )
