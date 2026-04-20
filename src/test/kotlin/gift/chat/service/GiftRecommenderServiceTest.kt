@@ -8,6 +8,8 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.slot
+import io.mockk.verify
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.ai.chat.client.advisor.api.Advisor
 import java.util.function.Consumer
@@ -45,6 +47,30 @@ class GiftRecommenderServiceTest : FunSpec({
             val actual = giftRecommenderService.recommend(request)
             actual.sessionId shouldNotBe null
             actual.message shouldBe "생일 추천 선물은 케이크"
+        }
+
+        test("재추천을 하는 경우 동일한 sessionId를 가지고 ai client에 요청한다") {
+            val request = RecommendGiftRequest(
+                message = "친구 생일 선물 추천해줘",
+                sessionId = "550e8400-e29b-41d4-a716-446655440000"
+            )
+            val advisorSlot = slot<Consumer<ChatClient.AdvisorSpec>>()
+            val advisorSpec = mockk<ChatClient.AdvisorSpec>(relaxed = true)
+
+            every {
+                chatClient.prompt()
+                    .user("친구 생일 선물 추천해줘")
+                    .advisors(capture(advisorSlot))
+                    .call()
+                    .content()
+            } returns "생일 추천 선물은 케이크"
+
+            val actual = giftRecommenderService.recommend(request)
+            actual.sessionId shouldBe "550e8400-e29b-41d4-a716-446655440000"
+            actual.message shouldBe "생일 추천 선물은 케이크"
+
+            advisorSlot.captured.accept(advisorSpec)
+            verify { advisorSpec.param("sessionId", "550e8400-e29b-41d4-a716-446655440000") }
         }
     }
 })
