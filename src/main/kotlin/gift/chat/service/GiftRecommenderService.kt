@@ -35,7 +35,7 @@ class GiftRecommenderService(
     }
 
     companion object {
-        private val log = KotlinLogging.logger { }
+        private val log = KotlinLogging.logger {}
         private const val GIFT_RECOMMEND_SYSTEM = """
             당신은 선물 추천 전문가입니다.
             사용자가 선물 받을 대상과 상황을 설명하면 적절한 상품을 추천하세요.
