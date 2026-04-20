@@ -2,6 +2,8 @@ package gift.chat.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
+import gift.chat.dto.RecommendGiftRequest
+import gift.chat.dto.RecommendGiftResponse
 import gift.chat.service.GiftRecommenderService
 import io.kotest.core.extensions.ApplyExtension
 import io.kotest.core.spec.style.FunSpec

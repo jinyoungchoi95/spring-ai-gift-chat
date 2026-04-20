@@ -1,7 +1,7 @@
 package gift.chat.service
 
-import gift.chat.controller.RecommendGiftRequest
-import gift.chat.controller.RecommendGiftResponse
+import gift.chat.dto.RecommendGiftRequest
+import gift.chat.dto.RecommendGiftResponse
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.stereotype.Service
 import java.util.UUID

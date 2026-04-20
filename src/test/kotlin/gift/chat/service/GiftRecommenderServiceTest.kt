@@ -1,6 +1,6 @@
 package gift.chat.service
 
-import gift.chat.controller.RecommendGiftRequest
+import gift.chat.dto.RecommendGiftRequest
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe

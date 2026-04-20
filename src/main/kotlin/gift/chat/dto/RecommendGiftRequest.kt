@@ -1,4 +1,4 @@
-package gift.chat.controller
+package gift.chat.dto
 
 data class RecommendGiftRequest(
     val sessionId: String?,
