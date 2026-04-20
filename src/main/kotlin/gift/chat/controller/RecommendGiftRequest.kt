@@ -1,6 +1,6 @@
 package gift.chat.controller
 
 data class RecommendGiftRequest(
-    val message: String,
-    val sessionId: String?
+    val sessionId: String?,
+    val message: String
 )

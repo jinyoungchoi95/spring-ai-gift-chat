@@ -32,8 +32,8 @@ class GiftRecommenderServiceTest : FunSpec({
     context("recommend") {
         test("최초 선물 추천을 ai client를 통해 요청한다") {
             val request = RecommendGiftRequest(
-                message = "친구 생일 선물 추천해줘",
-                sessionId = null
+                sessionId = null,
+                message = "친구 생일 선물 추천해줘"
             )
             every {
                 chatClient.prompt()
@@ -50,8 +50,8 @@ class GiftRecommenderServiceTest : FunSpec({
 
         test("재추천을 하는 경우 동일한 sessionId를 가지고 ai client에 요청한다") {
             val request = RecommendGiftRequest(
-                message = "친구 생일 선물 추천해줘",
-                sessionId = "550e8400-e29b-41d4-a716-446655440000"
+                sessionId = "550e8400-e29b-41d4-a716-446655440000",
+                message = "친구 생일 선물 추천해줘"
             )
             val advisorSlot = slot<Consumer<ChatClient.AdvisorSpec>>()
             val advisorSpec = mockk<ChatClient.AdvisorSpec>(relaxed = true)

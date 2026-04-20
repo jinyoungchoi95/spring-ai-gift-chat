@@ -26,8 +26,8 @@ class GiftRecommenderControllerTest(
                 every {
                     giftRecommenderService.recommend(
                         RecommendGiftRequest(
-                            message = "친구 생일 선물 추천해 줘",
-                            sessionId = "550e8400-e29b-41d4-a716-446655440000"
+                            sessionId = "550e8400-e29b-41d4-a716-446655440000",
+                            message = "친구 생일 선물 추천해 줘"
                         )
                     )
                 } returns RecommendGiftResponse(
@@ -39,8 +39,8 @@ class GiftRecommenderControllerTest(
                     contentType = MediaType.APPLICATION_JSON
                     content = objectMapper.writeValueAsString(
                         RecommendGiftRequest(
-                            message = "친구 생일 선물 추천해 줘",
                             sessionId = "550e8400-e29b-41d4-a716-446655440000",
+                            message = "친구 생일 선물 추천해 줘",
                         )
                     )
                 }.andExpect {
