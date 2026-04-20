@@ -1,4 +1,4 @@
-package gift.chat
+package gift.chat.controller
 
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
