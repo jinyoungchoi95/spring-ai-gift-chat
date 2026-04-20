@@ -38,7 +38,6 @@ class GiftRecommenderServiceTest : FunSpec({
 
             val actual = giftRecommenderService.recommend(request)
             actual.message shouldBe "생일 추천 선물은 케이크"
-            actual.durationMs shouldBe 500
         }
     }
 })

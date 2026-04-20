@@ -20,9 +20,8 @@ class GiftRecommenderService(
             .content()
 
         return RecommendGiftResponse(
-            requestId = "550e8400-e29b-41d4-a716-446655440000",
+            sessionId = "550e8400-e29b-41d4-a716-446655440000",
             message = response!!,
-            durationMs = 500,
         )
     }
 
