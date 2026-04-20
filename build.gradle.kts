@@ -38,9 +38,11 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     implementation("org.springframework.ai:spring-ai-starter-model-google-genai")
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
     testImplementation("io.kotest:kotest-runner-junit5:6.1.11")
     testImplementation("io.kotest:kotest-assertions-core:6.1.11")
     testImplementation("io.kotest:kotest-extensions-spring:6.1.11")
+    testImplementation("org.logcapture:logcapture-kotest:1.2.2")
 }
 
 kotlin {
