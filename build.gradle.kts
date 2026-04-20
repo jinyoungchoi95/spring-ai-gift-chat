@@ -43,6 +43,7 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-core:6.1.11")
     testImplementation("io.kotest:kotest-extensions-spring:6.1.11")
     testImplementation("org.logcapture:logcapture-kotest:1.2.2")
+    testImplementation("com.ninja-squad:springmockk:5.0.1")
 }
 
 kotlin {

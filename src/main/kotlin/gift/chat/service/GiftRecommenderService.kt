@@ -4,6 +4,7 @@ import gift.chat.controller.RecommendGiftRequest
 import gift.chat.controller.RecommendGiftResponse
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class GiftRecommenderService(
@@ -11,16 +12,19 @@ class GiftRecommenderService(
 ) {
     private val chatClient: ChatClient = chatClientBuilder
         .defaultSystem(GIFT_RECOMMEND_SYSTEM)
+        .defaultAdvisors(LoggerAdvisor())
         .build()
 
     fun recommend(request: RecommendGiftRequest): RecommendGiftResponse {
+        val sessionId = request.sessionId ?: UUID.randomUUID().toString()
         val response = chatClient.prompt()
             .user(request.message)
+            .advisors { it.param("sessionId", sessionId) }
             .call()
             .content()
 
         return RecommendGiftResponse(
-            sessionId = "550e8400-e29b-41d4-a716-446655440000",
+            sessionId = sessionId,
             message = response!!,
         )
     }
