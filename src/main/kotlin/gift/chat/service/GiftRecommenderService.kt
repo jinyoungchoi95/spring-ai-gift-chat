@@ -22,7 +22,7 @@ class GiftRecommenderService(
         val response = runCatching {
             chatClient.prompt()
                 .user(request.message)
-                .advisors { it.param("sessionId", sessionId) }
+                .advisors { it.param(ADVISOR_SESSION_ID_KEY, sessionId) }
                 .call()
                 .content()
         }.onFailure { log.error(it) { "ai prompt call error" } }
@@ -44,5 +44,6 @@ class GiftRecommenderService(
             - 추천은 1개만 제안
             - 선물과 관련 없는 질문에는 정중히 거절하고, 선물 추천으로 대화를 유도
         """
+        private const val ADVISOR_SESSION_ID_KEY = "sessionId"
     }
 }
