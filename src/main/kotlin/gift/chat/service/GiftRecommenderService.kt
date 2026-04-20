@@ -7,11 +7,14 @@ import org.springframework.stereotype.Service
 
 @Service
 class GiftRecommenderService(
-    val chatClient: ChatClient,
+    chatClientBuilder: ChatClient.Builder,
 ) {
+    private val chatClient: ChatClient = chatClientBuilder
+        .defaultSystem(GIFT_RECOMMEND_SYSTEM)
+        .build()
+
     fun recommend(request: RecommendGiftRequest): RecommendGiftResponse {
         val response = chatClient.prompt()
-            .system(GIFT_RECOMMEND_SYSTEM)
             .user(request.message)
             .call()
             .content()
