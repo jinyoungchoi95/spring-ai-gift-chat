@@ -12,9 +12,16 @@ class GiftRecommenderServiceTest : FunSpec({
     isolationMode = IsolationMode.InstancePerTest
 
     val chatClient = mockk<ChatClient>()
-    val giftRecommenderService = GiftRecommenderService(
-        chatClient = chatClient
-    )
+    val chatClientBuilder = mockk<ChatClient.Builder>()
+
+    beforeTest {
+        every { chatClientBuilder.defaultSystem(any<String>()) } returns chatClientBuilder
+        every { chatClientBuilder.build() } returns chatClient
+    }
+
+    val giftRecommenderService by lazy {
+        GiftRecommenderService(chatClientBuilder = chatClientBuilder)
+    }
 
     context("recommend") {
         test("선물 추천을 ai client를 통해 요청한다") {
@@ -24,7 +31,6 @@ class GiftRecommenderServiceTest : FunSpec({
             )
             every {
                 chatClient.prompt()
-                    .system(any<String>())
                     .user("친구 생일 선물 추천해줘")
                     .call()
                     .content()
