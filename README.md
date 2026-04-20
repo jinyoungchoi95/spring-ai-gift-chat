@@ -15,6 +15,5 @@ POST /api/chat
 - `sessionId` (String, 선택): 대화 단위 식별자
 
 **Response Body**
-- `requestId` (String): 요청 단위 식별자
 - `message` (String): AI 응답 메시지
-- `durationMs` (long): 응답 생성 시간
+- `sessionId` (String): 대화 단위 식별자
