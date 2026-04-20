@@ -11,6 +11,7 @@ class GiftRecommenderService(
 ) {
     fun recommend(request: RecommendGiftRequest): RecommendGiftResponse {
         val response = chatClient.prompt()
+            .user(request.message)
             .call()
             .content()
 
