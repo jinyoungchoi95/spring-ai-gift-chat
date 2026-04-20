@@ -51,6 +51,30 @@ class GiftRecommenderControllerTest(
                     jsonPath("$.message") { value("생일 추천 선물은 케이크") }
                 }
             }
+
+            test("요청 메시지가 빈 경우 400 에러를 응답한다") {
+                every {
+                    giftRecommenderService.recommend(
+                        RecommendGiftRequest(
+                            sessionId = null,
+                            message = ""
+                        )
+                    )
+                } throws IllegalArgumentException("선물 추천을 위한 메시지가 필요합니다.")
+
+                mockMvc.post("/api/gifts/recommend") {
+                    contentType = MediaType.APPLICATION_JSON
+                    content = objectMapper.writeValueAsString(
+                        RecommendGiftRequest(
+                            sessionId = null,
+                            message = ""
+                        )
+                    )
+                }.andExpect {
+                    status { isBadRequest() }
+                    jsonPath("$.message") { value("선물 추천을 위한 메시지가 필요합니다.") }
+                }
+            }
         }
     }
 }

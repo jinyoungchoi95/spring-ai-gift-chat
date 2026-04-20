@@ -2,6 +2,7 @@ package gift.chat.service
 
 import gift.chat.dto.RecommendGiftRequest
 import gift.chat.dto.RecommendGiftResponse
+import gift.chat.exception.GiftRecommendException
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.stereotype.Service
 import java.util.UUID
@@ -21,11 +22,11 @@ class GiftRecommenderService(
             .user(request.message)
             .advisors { it.param("sessionId", sessionId) }
             .call()
-            .content()
+            .content() ?: throw GiftRecommendException()
 
         return RecommendGiftResponse(
             sessionId = sessionId,
-            message = response!!,
+            message = response,
         )
     }
 

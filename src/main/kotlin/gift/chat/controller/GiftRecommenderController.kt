@@ -13,6 +13,7 @@ class GiftRecommenderController(
 ) {
     @PostMapping("/api/gifts/recommend")
     fun recommend(@RequestBody request: RecommendGiftRequest): RecommendGiftResponse {
+        require(request.message.isNotBlank()) { "선물 추천을 위한 메시지가 필요합니다." }
         return giftRecommenderService.recommend(request)
     }
 }
