@@ -3,6 +3,7 @@ package gift.chat.service
 import gift.chat.dto.RecommendGiftRequest
 import gift.chat.dto.RecommendGiftResponse
 import gift.chat.exception.GiftRecommendException
+import mu.KotlinLogging
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.stereotype.Service
 import java.util.UUID
@@ -18,11 +19,14 @@ class GiftRecommenderService(
 
     fun recommend(request: RecommendGiftRequest): RecommendGiftResponse {
         val sessionId = request.sessionId ?: UUID.randomUUID().toString()
-        val response = chatClient.prompt()
-            .user(request.message)
-            .advisors { it.param("sessionId", sessionId) }
-            .call()
-            .content() ?: throw GiftRecommendException()
+        val response = runCatching {
+            chatClient.prompt()
+                .user(request.message)
+                .advisors { it.param("sessionId", sessionId) }
+                .call()
+                .content()
+        }.onFailure { log.error(it) { "ai prompt call error" } }
+            .getOrNull() ?: throw GiftRecommendException()
 
         return RecommendGiftResponse(
             sessionId = sessionId,
@@ -31,6 +35,7 @@ class GiftRecommenderService(
     }
 
     companion object {
+        private val log = KotlinLogging.logger { }
         private const val GIFT_RECOMMEND_SYSTEM = """
             당신은 선물 추천 전문가입니다.
             사용자가 선물 받을 대상과 상황을 설명하면 적절한 상품을 추천하세요.

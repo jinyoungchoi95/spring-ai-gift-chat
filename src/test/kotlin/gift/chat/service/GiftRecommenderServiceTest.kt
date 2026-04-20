@@ -1,6 +1,8 @@
 package gift.chat.service
 
 import gift.chat.dto.RecommendGiftRequest
+import gift.chat.exception.GiftRecommendException
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
@@ -70,6 +72,42 @@ class GiftRecommenderServiceTest : FunSpec({
 
             advisorSlot.captured.accept(advisorSpec)
             verify { advisorSpec.param("sessionId", "550e8400-e29b-41d4-a716-446655440000") }
+        }
+
+        test("ai 요청이 실패하는 경우 에러를 던진다") {
+            val request = RecommendGiftRequest(
+                sessionId = null,
+                message = "친구 생일 선물 추천해줘"
+            )
+            every {
+                chatClient.prompt()
+                    .user("친구 생일 선물 추천해줘")
+                    .advisors(any<Consumer<ChatClient.AdvisorSpec>>())
+                    .call()
+                    .content()
+            } throws RuntimeException("chat 에러")
+
+            shouldThrow<GiftRecommendException> {
+                giftRecommenderService.recommend(request)
+            }
+        }
+
+        test("ai 요청의 응답이 null인 경우 에러를 던진다") {
+            val request = RecommendGiftRequest(
+                sessionId = null,
+                message = "친구 생일 선물 추천해줘"
+            )
+            every {
+                chatClient.prompt()
+                    .user("친구 생일 선물 추천해줘")
+                    .advisors(any<Consumer<ChatClient.AdvisorSpec>>())
+                    .call()
+                    .content()
+            } returns null
+
+            shouldThrow<GiftRecommendException> {
+                giftRecommenderService.recommend(request)
+            }
         }
     }
 })
