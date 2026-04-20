@@ -29,7 +29,9 @@ class GiftRecommenderControllerTest(
                     )
                 }.andExpect {
                     status { isOk() }
-                    jsonPath("$") { value("생일 추천 선물은 케이크") }
+                    jsonPath("$.requestId") { value("550e8400-e29b-41d4-a716-446655440000") }
+                    jsonPath("$.message") { value("생일 추천 선물은 케이크") }
+                    jsonPath("$.durationMs") { value(500) }
                 }
             }
         }
