@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import gift.chat.dto.RecommendGiftRequest
 import gift.chat.dto.RecommendGiftResponse
+import gift.chat.exception.GiftRecommendException
 import gift.chat.service.GiftRecommenderService
 import io.kotest.core.extensions.ApplyExtension
 import io.kotest.core.spec.style.FunSpec
@@ -73,6 +74,30 @@ class GiftRecommenderControllerTest(
                 }.andExpect {
                     status { isBadRequest() }
                     jsonPath("$.message") { value("선물 추천을 위한 메시지가 필요합니다.") }
+                }
+            }
+
+            test("AI 요청이 실패하는 경우 500 에러를 응답한다") {
+                every {
+                    giftRecommenderService.recommend(
+                        RecommendGiftRequest(
+                            sessionId = null,
+                            message = "친구 생일 선물 추천해줘"
+                        )
+                    )
+                } throws GiftRecommendException()
+
+                mockMvc.post("/api/gifts/recommend") {
+                    contentType = MediaType.APPLICATION_JSON
+                    content = objectMapper.writeValueAsString(
+                        RecommendGiftRequest(
+                            sessionId = null,
+                            message = "친구 생일 선물 추천해줘"
+                        )
+                    )
+                }.andExpect {
+                    status { isInternalServerError() }
+                    jsonPath("$.message") { value("선물 추천에 실패했습니다. 잠시 후 다시 시도해주세요.") }
                 }
             }
         }
