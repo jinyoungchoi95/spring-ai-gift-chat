@@ -1,7 +1,7 @@
 plugins {
-    kotlin("jvm") version "1.9.25"
-    kotlin("plugin.spring") version "1.9.25"
-    kotlin("plugin.jpa") version "1.9.25"
+    kotlin("jvm") version "2.2.0"
+    kotlin("plugin.spring") version "2.2.0"
+    kotlin("plugin.jpa") version "2.2.0"
     id("org.springframework.boot") version "3.5.13"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.jlleitschuh.gradle.ktlint") version "14.0.1"
@@ -37,8 +37,13 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-    implementation(platform("org.springframework.ai:spring-ai-bom:1.1.2"))
     implementation("org.springframework.ai:spring-ai-starter-model-google-genai")
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
+    testImplementation("io.kotest:kotest-runner-junit5:6.1.11")
+    testImplementation("io.kotest:kotest-assertions-core:6.1.11")
+    testImplementation("io.kotest:kotest-extensions-spring:6.1.11")
+    testImplementation("org.logcapture:logcapture-kotest:1.2.2")
+    testImplementation("com.ninja-squad:springmockk:5.0.1")
 }
 
 kotlin {
