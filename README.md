@@ -21,3 +21,9 @@ POST /api/gifts/recommend
 **Response Body**
 - `message` (String): AI 응답 메시지
 - `sessionId` (String): 대화 단위 식별자
+
+## LLM 추상화
+- `ChatClient`를 추상화 한다
+  - `GiftRecommendChatClient`로 추상화하고 요청 메시지를 받아 공통된 응답을 해주는 객체로 구현한다
+  - Spring ai 구현체 외에 Claude Agent Sdk를 사용한 구현체를 추가한다
+- 각 구현체는 빈 등록을 선택적으로 수행할 수 있도록 한다
