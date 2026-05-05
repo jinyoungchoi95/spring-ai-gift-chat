@@ -3,6 +3,7 @@ package gift.chat.external
 import gift.chat.service.LoggerAdvisor
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.ai.chat.client.ChatClient.Builder
+import java.util.UUID
 
 class SpringAiGiftRecommendChatClient(
     chatClientBuilder: Builder,
@@ -13,13 +14,15 @@ class SpringAiGiftRecommendChatClient(
         .defaultAdvisors(LoggerAdvisor())
         .build()
 
-    override fun call(message: String, sessionId: String): Result<String> {
+    override fun call(message: String, sessionId: String?): Result<ChatResponse> {
+        val resolvedSessionId = sessionId ?: UUID.randomUUID().toString()
         return runCatching {
-            chatClient.prompt()
+            val content = chatClient.prompt()
                 .user(message)
-                .advisors { it.param(ADVISOR_SESSION_ID_KEY, sessionId) }
+                .advisors { it.param(ADVISOR_SESSION_ID_KEY, resolvedSessionId) }
                 .call()
                 .content() ?: error("content is empty")
+            ChatResponse(sessionId = resolvedSessionId, message = content)
         }
     }
 

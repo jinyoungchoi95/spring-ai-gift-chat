@@ -6,21 +6,19 @@ import gift.chat.exception.GiftRecommendException
 import gift.chat.external.GiftRecommendChatClient
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
-import java.util.UUID
 
 @Service
 class GiftRecommenderService(
     private val chatClient: GiftRecommendChatClient,
 ) {
     fun recommend(request: RecommendGiftRequest): RecommendGiftResponse {
-        val sessionId = request.sessionId ?: UUID.randomUUID().toString()
-        val response = chatClient.call(request.message, sessionId)
+        val response = chatClient.call(request.message, request.sessionId)
             .onFailure { log.error(it) { "ai prompt call error" } }
             .getOrNull() ?: throw GiftRecommendException()
 
         return RecommendGiftResponse(
-            sessionId = sessionId,
-            message = response,
+            sessionId = response.sessionId,
+            message = response.message,
         )
     }
 
