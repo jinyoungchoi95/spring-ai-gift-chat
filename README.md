@@ -23,7 +23,12 @@ POST /api/gifts/recommend
 - `sessionId` (String): 대화 단위 식별자
 
 ## LLM 추상화
-- `ChatClient`를 추상화 한다
-  - `GiftRecommendChatClient`로 추상화하고 요청 메시지를 받아 공통된 응답을 해주는 객체로 구현한다
-  - Spring ai 구현체 외에 Claude Agent Sdk를 사용한 구현체를 추가한다
-- 각 구현체는 빈 등록을 선택적으로 수행할 수 있도록 한다
+- `GiftRecommendChatClient` 인터페이스로 LLM 호출을 추상화한다
+  - 요청 메시지와 sessionId를 받아 `Result<String>`을 반환한다
+- 구현체
+  - `SpringAiGiftRecommendChatClient`: Spring AI ChatClient 기반
+  - `ClaudeCodeGiftRecommendChatClient`: Claude Code SDK(`Query.text()`) 기반
+- `GiftRecommendChatClientConfig`에서 `@ConditionalOnProperty`로 빈 등록을 분기한다
+  - `llm.provider=spring-ai` → SpringAiGiftRecommendChatClient
+  - `llm.provider=claude-code` → ClaudeCodeGiftRecommendChatClient
+- `GiftRecommenderService`는 `GiftRecommendChatClient`를 주입받아 구현체에 의존하지 않는다
