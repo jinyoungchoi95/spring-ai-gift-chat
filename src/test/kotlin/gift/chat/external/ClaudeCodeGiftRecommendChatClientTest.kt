@@ -12,7 +12,7 @@ import org.springaicommunity.claude.agent.sdk.QueryOptions
 class ClaudeCodeGiftRecommendChatClientTest : FunSpec({
     isolationMode = IsolationMode.InstancePerTest
 
-    val claudeCodeGiftRecommendChatClient = ClaudeCodeGiftRecommendChatClient()
+    val claudeCodeGiftRecommendChatClient = ClaudeCodeGiftRecommendChatClient(systemPrompt = "test system prompt")
 
     beforeTest {
         mockkStatic(Query::class)

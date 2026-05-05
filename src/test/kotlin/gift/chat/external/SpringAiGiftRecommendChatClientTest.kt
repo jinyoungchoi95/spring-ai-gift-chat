@@ -26,7 +26,7 @@ class SpringAiGiftRecommendChatClientTest : FunSpec({
     }
 
     val springAiGiftRecommendChatClient by lazy {
-        SpringAiGiftRecommendChatClient(chatClientBuilder = chatClientBuilder)
+        SpringAiGiftRecommendChatClient(chatClientBuilder = chatClientBuilder, systemPrompt = "test system prompt")
     }
 
     context("call") {
