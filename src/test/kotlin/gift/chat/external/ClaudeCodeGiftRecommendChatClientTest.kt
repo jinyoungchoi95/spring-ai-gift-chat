@@ -19,22 +19,23 @@ class ClaudeCodeGiftRecommendChatClientTest : FunSpec({
 
     val claudeCodeGiftRecommendChatClient = ClaudeCodeGiftRecommendChatClient(systemPrompt = "test system prompt")
     val syncClient = mockk<ClaudeSyncClient>(relaxed = true)
-    val syncSpec = mockk<ClaudeClient.SyncSpec>()
-    val syncSpecWithOptions = mockk<ClaudeClient.SyncSpecWithOptions>()
     val resultMessage = mockk<ResultMessage>()
 
     beforeTest {
         mockkStatic(ClaudeClient::class)
+        val syncSpec = mockk<ClaudeClient.SyncSpec> {
+            every { workingDirectory(any()) } returns this@mockk
+            every { systemPrompt(any<String>()) } returns this@mockk
+            every { permissionMode(any()) } returns this@mockk
+            every { build() } returns syncClient
+        }
+        val syncSpecWithOptions = mockk<ClaudeClient.SyncSpecWithOptions> {
+            every { workingDirectory(any()) } returns this@mockk
+            every { build() } returns syncClient
+        }
 
         every { ClaudeClient.sync() } returns syncSpec
-        every { syncSpec.workingDirectory(any()) } returns syncSpec
-        every { syncSpec.systemPrompt(any<String>()) } returns syncSpec
-        every { syncSpec.permissionMode(any()) } returns syncSpec
-        every { syncSpec.build() } returns syncClient
-
         every { ClaudeClient.sync(any<CLIOptions>()) } returns syncSpecWithOptions
-        every { syncSpecWithOptions.workingDirectory(any()) } returns syncSpecWithOptions
-        every { syncSpecWithOptions.build() } returns syncClient
     }
 
     afterTest {
