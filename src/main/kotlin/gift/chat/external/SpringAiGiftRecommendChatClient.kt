@@ -3,9 +3,7 @@ package gift.chat.external
 import gift.chat.service.LoggerAdvisor
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.ai.chat.client.ChatClient.Builder
-import org.springframework.stereotype.Component
 
-@Component
 class SpringAiGiftRecommendChatClient(
     chatClientBuilder: Builder,
 ): GiftRecommendChatClient {
