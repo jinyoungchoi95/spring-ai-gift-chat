@@ -2,8 +2,10 @@ package gift.chat.external
 
 import org.springaicommunity.claude.agent.sdk.Query
 import org.springaicommunity.claude.agent.sdk.QueryOptions
+import org.springframework.context.annotation.Primary
 import org.springframework.stereotype.Component
 
+@Primary
 @Component
 class ClaudeCodeGiftRecommendChatClient : GiftRecommendChatClient {
 
