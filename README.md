@@ -27,7 +27,8 @@ POST /api/gifts/recommend
   - 요청 메시지와 sessionId를 받아 `Result<String>`을 반환한다
 - 구현체
   - `SpringAiGiftRecommendChatClient`: Spring AI ChatClient 기반
-  - `ClaudeCodeGiftRecommendChatClient`: Claude Code SDK(`Query.text()`) 기반
+  - `ClaudeCodeGiftRecommendChatClient`: Claude Code SDK 기반
+    - 세션이 유지되도록 `CLIOptions`를 조정한다
 - `GiftRecommendChatClientConfig`에서 `@ConditionalOnProperty`로 빈 등록을 분기한다
   - `llm.provider=spring-ai` → SpringAiGiftRecommendChatClient
   - `llm.provider=claude-code` → ClaudeCodeGiftRecommendChatClient
