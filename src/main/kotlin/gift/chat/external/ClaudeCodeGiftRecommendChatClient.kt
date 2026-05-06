@@ -28,11 +28,11 @@ class ClaudeCodeGiftRecommendChatClient(
     }
 
     private fun chat(client: ClaudeSyncClient, message: String): ChatResponse {
-        val messageList = client.connectAndReceive(message).toList()
-        val responseText = messageList
+        val messages = client.connectAndReceive(message).toList()
+        val responseText = messages
             .filterIsInstance<AssistantMessage>()
             .joinToString("") { it.text() }
-        val resultSessionId = messageList
+        val resultSessionId = messages
             .filterIsInstance<ResultMessage>()
             .last().sessionId()
 
